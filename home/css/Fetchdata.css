@@ -1,0 +1,107 @@
+body{
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f8ff;
+}
+.navbar {
+    position: sticky;
+    top: 0;
+    background-color: #2979ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    color: white;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+#list-item{
+    font-size: 1.2rem;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
+
+.main-container{
+    width: 550px;
+    height: 600px;
+    margin-left: 500px;
+    margin-top: 200px;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+input, select {
+    width: 95%;
+    padding: 0.5rem;
+}
+.btn {
+    padding: 0.6rem 1rem;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #155cc0;
+}
+.chatbot-icon {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #2979ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-icon img {
+    width: 30px;
+    height: 30px;
+}

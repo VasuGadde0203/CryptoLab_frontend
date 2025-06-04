@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoLab: Auth</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center">
+    <div class="container auth-container max-w-md mx-auto">
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form bg-gray-600 p-8 rounded-lg shadow-lg">
+            <h2 class="text-center text-2xl font-bold text-gray-100 mb-6">Login</h2>
+            <form id="login-form-element">
+                <div class="mb-4">
+                    <label for="login-email" class="block text-sm font-semibold text-gray-300 mb-2">Email</label>
+                    <input type="email" class="w-full p-2 bg-gray-200 rounded-lg text-gray-900 border border-gray-500 focus:outline-none focus:border-blue-500" id="login-email" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block text-sm font-semibold text-gray-300 mb-2">Password</label>
+                    <input type="password" class="w-full p-2 bg-gray-200 rounded-lg text-gray-900 border border-gray-500 focus:outline-none focus:border-blue-500" id="login-password" required>
+                </div>
+                <button type="submit" class="btn bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-md w-full hover:from-blue-700 hover:to-indigo-700 transition">Login</button>
+                <p class="text-center mt-4 text-gray-300">Don't have an account? <a href="#" id="show-register" class="text-blue-400 hover:underline">Register</a></p>
+            </form>
+            <div id="login-error" class="text-red-400 text-center mt-4" style="display: none;"></div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="auth-form bg-gray-600 p-8 rounded-lg shadow-lg" style="display: none;">
+            <h2 class="text-center text-2xl font-bold text-gray-100 mb-6">Register</h2>
+            <form id="register-form-element">
+                <div class="mb-4">
+                    <label for="register-email" class="block text-sm font-semibold text-gray-300 mb-2">Email</label>
+                    <input type="email" class="w-full p-2 bg-gray-200 rounded-lg text-gray-900 border border-gray-500 focus:outline-none focus:border-blue-500" id="register-email" required>
+                </div>
+                <div class="mb-6">
+                    <label for="register-password" class="block text-sm font-semibold text-gray-300 mb-2">Password</label>
+                    <input type="password" class="w-full p-2 bg-gray-200 rounded-lg text-gray-900 border border-gray-500 focus:outline-none focus:border-blue-500" id="register-password" required>
+                </div>
+                <button type="submit" class="btn bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-md w-full hover:from-blue-700 hover:to-indigo-700 transition">Register</button>
+                <p class="text-center mt-4 text-gray-300">Already have an account? <a href="#" id="show-login" class="text-blue-400 hover:underline">Login</a></p>
+            </form>
+            <div id="register-error" class="text-red-400 text-center mt-4" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoLab: About Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Tabbed Interface Styles */
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Chatbot Styles */
+        .chatbot-container {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: #1f2937;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+        .chatbot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .chatbot-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .chatbot-header button:hover {
+            color: #e5e7eb;
+        }
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #1f2937;
+            border-bottom: 1px solid #374151;
+        }
+        .chatbot-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        .chatbot-message.bot {
+            background-color: #2563eb;
+            color: white;
+            align-self: flex-start;
+        }
+        .chatbot-message.user {
+            background-color: #4b5563;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .chatbot-message.loading::after {
+            content: '...';
+            animation: dots 1s infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            background-color: #1f2937;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 8px;
+            background-color: #374151;
+            color: white;
+            border: 1px solid #4b5563;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        .chatbot-input input:focus {
+            border-color: #2563eb;
+        }
+        .chatbot-input button {
+            padding: 8px 15px;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .chatbot-input button:hover {
+            background: linear-gradient(to right, #1d4ed8, #4338ca);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 flex flex-col">
+    <!-- Navbar -->
+    <!-- <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-white">CryptoLab</div>
+            <ul class="flex space-x-6">
+                <li><a href="/frontend/home/html/dashboard.html" class="text-white hover:text-gray-300 transition">Home</a></li>
+                <li><a href="/frontend/home/html/Fetchdata.html" class="text-white hover:text-gray-300 transition">Fetch Data</a></li>
+                <li><a href="/frontend/home/html/forcasting.html" class="text-white hover:text-gray-300 transition">Forecasting</a></li>
+                <li><a href="/frontend/home/html/Timeseries.html" class="text-white hover:text-gray-300 transition">Time Series</a></li>
+                <li><a href="/frontend/home/html/About.html" class="text-white hover:text-gray-300 transition">About</a></li>
+                <li><a href="/frontend/home/html/contact.html" class="text-white hover:text-gray-300 transition">Contact</a></li>
+                <li>
+                    <button id="logout-btn" class="text-white hover:text-gray-300 transition" aria-label="Logout">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav> -->
+
+    <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white">CryptoLab</div>
+        <ul class="flex space-x-6">
+            <li><a href="/frontend/home/html/dashboard.html" class="text-white text-lg hover:text-gray-300 transition">Home</a></li>
+            <li><a href="/frontend/home/html/Fetchdata.html" class="text-white text-lg hover:text-gray-300 transition">Fetch Data</a></li>
+            <li><a href="/frontend/home/html/forcasting.html" class="text-white text-lg hover:text-gray-300 transition">Forecasting</a></li>
+            <li><a href="/frontend/home/html/Timeseries.html" class="text-white text-lg hover:text-gray-300 transition">Time Series</a></li>
+            <li><a href="/frontend/home/html/About.html" class="text-white text-lg hover:text-gray-300 transition">About</a></li>
+            <li><a href="/frontend/home/html/contact.html" class="text-white text-lg hover:text-gray-300 transition">Contact</a></li>
+            <li>
+                <button id="logout-btn" class="text-white hover:text-gray-300 transition" aria-label="Logout">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                </button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- About Section -->
+    <section class="py-12 bg-gray-900 flex-grow">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-white text-center mb-10">About CryptoLab</h2>
+            <div class="max-w-3xl mx-auto">
+                <!-- Tabs Navigation -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button class="tab-button px-6 py-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 transition active" data-tab="mission" aria-selected="true">Our Mission</button>
+                    <button class="tab-button px-6 py-2 bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 transition" data-tab="offer" aria-selected="false">What We Offer</button>
+                </div>
+                <!-- Tabs Content -->
+                <div id="mission" class="tab-content active bg-gray-800 rounded-lg p-6 shadow-lg text-gray-300">
+                    <p>At CryptoLab, our mission is to empower crypto enthusiasts and traders with powerful tools for data analysis, forecasting, and time-series visualization. We aim to simplify complex crypto data to help you make informed decisions.</p>
+                </div>
+                <div id="offer" class="tab-content bg-gray-800 rounded-lg p-6 shadow-lg text-gray-300">
+                    <p>We provide features like real-time data fetching from Binance API, advanced time-series analysis, forecasting models, and an AI-powered crypto assistant to answer your queries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logout Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50 transition-opacity duration-300">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full transform scale-95 transition-transform duration-300">
+            <h3 class="text-lg font-semibold text-gray-100 mb-4">Do you want to logout?</h3>
+            <div class="flex justify-end space-x-4">
+                <button id="logout-cancel" class="px-4 py-2 bg-gray-600 text-gray-100 rounded-md hover:bg-gray-500 transition">No</button>
+                <button id="logout-confirm" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md hover:from-blue-700 hover:to-indigo-700 transition">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Icon -->
+    <div id="chatbot-icon" class="fixed bottom-6 right-6 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Chatbot Icon" class="w-8 h-8"/>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="chatbot-container flex">
+        <div class="chatbot-header">
+            <h3>Crypto Assistant</h3>
+            <button id="chatbot-close" aria-label="Close Chatbot">×</button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message bot">Hello! I'm here to help with your crypto questions. What would you like to know?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Ask a question about crypto..." autocomplete="off" aria-label="Chatbot Input">
+            <button id="chatbot-send" aria-label="Send Message">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Tabbed Interface Functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-selected', 'false');
+                });
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                button.setAttribute('aria-selected', 'true');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Logout Modal Functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutModal = document.getElementById('logout-modal');
+        const logoutCancel = document.getElementById('logout-cancel');
+        const logoutConfirm = document.getElementById('logout-confirm');
+
+        logoutBtn.addEventListener('click', () => {
+            logoutModal.classList.remove('hidden');
+        });
+
+        logoutCancel.addEventListener('click', () => {
+            logoutModal.classList.add('hidden');
+        });
+
+        logoutConfirm.addEventListener('click', () => {
+            localStorage.removeItem('access_token');
+            window.location.href = '/frontend/home/html/login.html';
+        });
+
+        // Chatbot Functionality
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+
+        chatbotIcon.addEventListener('click', () => {
+            const isVisible = chatbotContainer.style.display === 'flex';
+            chatbotContainer.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) {
+                chatbotInput.focus();
+                scrollToBottom();
+            }
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotContainer.style.display = 'none';
+        });
+
+        chatbotSend.addEventListener('click', sendMessage);
+
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function formatResponse(text) {
+            function escapeHTML(str) {
+                return str.replace(/&/g, '&amp;')
+                          .replace(/</g, '&lt;')
+                          .replace(/>/g, '&gt;')
+                          .replace(/"/g, '&quot;')
+                          .replace(/'/g, '&#39');
+            }
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            const paragraphs = text.split(/\n\n/).filter(p => p.trim() !== '');
+            let html = '';
+            let inOrderedList = false;
+            let inUnorderedList = false;
+            let currentListItems = [];
+
+            paragraphs.forEach(paragraph => {
+                const lines = paragraph.split('\n').filter(line => line.trim() !== '');
+                let paragraphHTML = '';
+                lines.forEach((line, index) => {
+                    const numberedMatch = line.match(/^\d+\.\s*(.+)/);
+                    const bulletMatch = line.match(/^\-\s*(.+)/);
+                    const continuationMatch = line.match(/^\s{2,}(.+)/);
+
+                    if (numberedMatch) {
+                        if (inUnorderedList) {
+                            paragraphHTML += `<ul>${currentListItems.join('')}</ul>`;
+                            currentListItems = [];
+                            inUnorderedList = false;
+                        }
+                        if (!inOrderedList) {
+                            inOrderedList = true;
+                        }
+                        currentListItems.push(`<li>${escapeHTML(numberedMatch[1])}</li>`);
+                    } else if (bulletMatch) {
+                        if (inOrderedList) {
+                            paragraphHTML += `<ol>${currentListItems.join('')}</ol>`;
+                            currentListItems = [];
+                            inOrderedList = false;
+                        }
+                        if (!inUnorderedList) {
+                            inUnorderedList = true;
+                        }
+                        currentListItems.push(`<li>${escapeHTML(bulletMatch[1])}</li>`);
+                    } else if (continuationMatch && (inOrderedList || inUnorderedList)) {
+                        const lastItemIndex = currentListItems.length - 1;
+                        if (lastItemIndex >= 0) {
+                            currentListItems[lastItemIndex] = currentListItems[lastItemIndex].replace(
+                                '</li>',
+                                ` ${escapeHTML(continuationMatch[1])}</li>`
+                            );
+                        }
+                    } else {
+                        if (inOrderedList) {
+                            paragraphHTML += `<ol>${currentListItems.join('')}</ol>`;
+                            currentListItems = [];
+                            inOrderedList = false;
+                        } else if (inUnorderedList) {
+                            paragraphHTML += `<ul>${currentListItems.join('')}</ul>`;
+                            currentListItems = [];
+                            inUnorderedList = false;
+                        }
+                        paragraphHTML += `<p>${escapeHTML(line)}</p>`;
+                    }
+
+                    if (index === lines.length - 1) {
+                        if (inOrderedList) {
+                            paragraphHTML += `<ol>${currentListItems.join('')}</ol>`;
+                            inOrderedList = false;
+                            currentListItems = [];
+                        } else if (inUnorderedList) {
+                            paragraphHTML += `<ul>${currentListItems.join('')}</ul>`;
+                            inUnorderedList = false;
+                            currentListItems = [];
+                        }
+                    }
+                });
+
+                html += paragraphHTML;
+            });
+
+            return html || '<p>No content available.</p>';
+        }
+
+        async function sendMessage() {
+            const query = chatbotInput.value.trim();
+            if (!query) return;
+
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chatbot-message user';
+            userMessage.textContent = query;
+            chatbotMessages.appendChild(userMessage);
+
+            chatbotInput.value = '';
+            scrollToBottom();
+
+            const loadingMessage = document.createElement('div');
+            loadingMessage.className = 'chatbot-message bot loading';
+            chatbotMessages.appendChild(loadingMessage);
+            scrollToBottom();
+
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) throw new Error('No access token found');
+
+                const response = await fetch('http://localhost:8000/chat/query', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) throw new Error(`Chatbot API error: ${response.status}`);
+
+                const data = await response.json();
+
+                loadingMessage.remove();
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chatbot-message bot';
+                botMessage.innerHTML = formatResponse(data.answer || 'Sorry, I couldn’t find an answer to that.');
+                chatbotMessages.appendChild(botMessage);
+            } catch (error) {
+                console.error('Chatbot Error:', error.message);
+                loadingMessage.remove();
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'chatbot-message bot';
+                errorMessage.textContent = 'Error: Unable to get a response. Please try again.';
+                chatbotMessages.appendChild(errorMessage);
+            }
+
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Check if external resources are loaded (for debugging)
+        window.addEventListener('load', () => {
+            const logoutIcon = new Image();
+            logoutIcon.src = 'https://cdn-icons-png.flaticon.com/512/1828/1828479.png';
+            logoutIcon.onerror = () => console.error('Failed to load logout icon');
+
+            const chatbotIconImg = new Image();
+            chatbotIconImg.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712027.png';
+            chatbotIconImg.onerror = () => console.error('Failed to load chatbot icon');
+        });
+    </script>
+</body>
+</html>

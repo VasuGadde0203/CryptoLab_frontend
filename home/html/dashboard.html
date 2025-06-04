@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoLab: Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="min-h-screen">
+    <!-- Navbar -->
+    <!-- <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-white">CryptoLab</div>
+            <ul class="flex space-x-6">
+                <li><a href="/frontend/home/html/dashboard.html" class="text-white">Home</a></li>
+                <li><a href="/frontend/home/html/Fetchdata.html" class="text-white">Fetch Data</a></li>
+                <li><a href="/frontend/home/html/forcasting.html" class="text-white">Forecasting</a></li>
+                <li><a href="/frontend/home/html/Timeseries.html" class="text-white">Time Series</a></li>
+                <li><a href="/frontend/home/html/About.html" class="text-white">About</a></li>
+                <li><a href="/frontend/home/html/contact.html" class="text-white">Contact</a></li>
+                <li>
+                    <button id="logout-btn" class="text-white hover:text-gray-300 transition">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav> -->
+
+    <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white">CryptoLab</div>
+        <ul class="flex space-x-6">
+            <li><a href="/frontend/home/html/dashboard.html" class="text-white text-lg hover:text-gray-300 transition">Home</a></li>
+            <li><a href="/frontend/home/html/Fetchdata.html" class="text-white text-lg hover:text-gray-300 transition">Fetch Data</a></li>
+            <li><a href="/frontend/home/html/forcasting.html" class="text-white text-lg hover:text-gray-300 transition">Forecasting</a></li>
+            <li><a href="/frontend/home/html/Timeseries.html" class="text-white text-lg hover:text-gray-300 transition">Time Series</a></li>
+            <li><a href="/frontend/home/html/About.html" class="text-white text-lg hover:text-gray-300 transition">About</a></li>
+            <li><a href="/frontend/home/html/contact.html" class="text-white text-lg hover:text-gray-300 transition">Contact</a></li>
+            <li>
+                <button id="logout-btn" class="text-white hover:text-gray-300 transition" aria-label="Logout">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                </button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to <span>CryptoLab</span></h1>
+            <p>Your ultimate platform for cryptocurrency analysis, forecasting, and time series insights. Dive into the world of crypto with real-time data and powerful tools.</p>
+            <a href="/frontend/home/html/Timeseries.html" class="btn text-white px-6 py-3 rounded-md inline-block">Explore Now</a>
+        </div>
+    </section>
+
+    <!-- Logout Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50 transition-opacity duration-300">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full transform scale-95 transition-transform duration-300">
+            <h3 class="text-lg font-semibold text-gray-100 mb-4">Do you want to logout?</h3>
+            <div class="flex justify-end space-x-4">
+                <button id="logout-cancel" class="px-4 py-2 bg-gray-600 text-gray-100 rounded-md hover:bg-gray-500 transition">No</button>
+                <button id="logout-confirm" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md hover:from-blue-700 hover:to-indigo-700 transition">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Icon -->
+    <div id="chatbot-icon" class="fixed bottom-6 right-6 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Chat Icon" class="w-8 h-8"/>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="chatbot-container flex">
+        <div class="chatbot-header">
+            <h3>Crypto Assistant</h3>
+            <button id="chatbot-close">×</button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message bot">Hello! I'm here to help with your crypto questions. What would you like to know?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Ask a question about crypto..." autocomplete="off">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <script src="../js/scripts.js"></script>
+</body>
+</html>

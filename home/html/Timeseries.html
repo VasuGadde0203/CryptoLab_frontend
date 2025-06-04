@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoLab: Time Series Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <link rel="stylesheet" href="../css/Timeseries.css">
+</head>
+<body class="min-h-screen">
+    <!-- Navbar -->
+    <!-- <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-white">CryptoLab</div>
+            <ul class="flex space-x-6">
+                <li><a href="/frontend/home/html/dashboard.html" class="text-white">Home</a></li>
+                <li><a href="/frontend/home/html/Fetchdata.html" class="text-white">Fetch Data</a></li>
+                <li><a href="/frontend/home/html/forcasting.html" class="text-white">Forecasting</a></li>
+                <li><a href="/frontend/home/html/Timeseries.html" class="text-white">Time Series</a></li>
+                <li><a href="/frontend/home/html/About.html" class="text-white">About</a></li>
+                <li><a href="/frontend/home/html/contact.html" class="text-white">Contact</a></li>
+                <li>
+                    <button id="logout-btn" class="text-white hover:text-gray-300 transition">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav> -->
+
+    <nav class="navbar bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold text-white">CryptoLab</div>
+        <ul class="flex space-x-6">
+            <li><a href="/frontend/home/html/dashboard.html" class="text-white text-lg hover:text-gray-300 transition">Home</a></li>
+            <li><a href="/frontend/home/html/Fetchdata.html" class="text-white text-lg hover:text-gray-300 transition">Fetch Data</a></li>
+            <li><a href="/frontend/home/html/forcasting.html" class="text-white text-lg hover:text-gray-300 transition">Forecasting</a></li>
+            <li><a href="/frontend/home/html/Timeseries.html" class="text-white text-lg hover:text-gray-300 transition">Time Series</a></li>
+            <li><a href="/frontend/home/html/About.html" class="text-white text-lg hover:text-gray-300 transition">About</a></li>
+            <li><a href="/frontend/home/html/contact.html" class="text-white text-lg hover:text-gray-300 transition">Contact</a></li>
+            <li>
+                <button id="logout-btn" class="text-white hover:text-gray-300 transition" aria-label="Logout">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Logout Icon" class="w-6 h-6"/>
+                </button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <!-- Input Form -->
+    <div class="input-container py-8 bg-gray-800/50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Crypto Time Series Analysis</h2>
+            <form id="input-form" class="flex flex-wrap justify-center gap-4">
+                <select id="coin" name="coin" required class="form-input bg-gray-700 text-white border-gray-600 rounded-md p-2">
+                    <option value="">Select Coin</option>
+                </select>
+                <select id="interval" name="interval" required class="form-input bg-gray-700 text-white border-gray-600 rounded-md p-2">
+                    <option value="">Select Interval</option>
+                    <option value="1m">1m</option>
+                    <option value="3m">3m</option>
+                    <option value="5m">5m</option>
+                    <option value="15m">15m</option>
+                    <option value="30m">30m</option>
+                    <option value="1h">1h</option>
+                    <option value="2h">2h</option>
+                    <option value="4h">4h</option>
+                    <option value="6h">6h</option>
+                    <option value="8h">8h</option>
+                    <option value="12h">12h</option>
+                    <option value="1d">1d</option>
+                    <option value="3d">3d</option>
+                    <option value="1w">1w</option>
+                    <option value="1M">1M</option>
+                </select>
+                <input type="date" id="start-date" name="start_date" required class="form-input bg-gray-700 text-white border-gray-600 rounded-md p-2">
+                <input type="date" id="end-date" name="end_date" required class="form-input bg-gray-700 text-white border-gray-600 rounded-md p-2">
+                <button type="submit" class="btn text-white px-6 py-2 rounded-md">Analyze</button>
+                <button type="button" id="refresh-btn" class="btn refresh-btn text-white px-6 py-2 rounded-md">Refresh</button>
+            </form>
+            <div id="loading-spinner" class="mt-4"></div>
+        </div>
+    </div>
+
+    <!-- Analysis Containers -->
+    <section class="py-8">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">Indicators</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('indicator-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="indicator-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">MACD</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('macd-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="macd-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">Price Movement Distribution</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('price-movement-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="price-movement-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">Compare</h3>
+                <div class="flex flex-wrap justify-between items-center mb-4">
+                    <select id="coin2" name="coin2" class="form-input bg-gray-700 text-white border-gray-600 rounded-md p-2 w-full sm:w-auto">
+                        <option value="">Select Second Coin (for Compare)</option>
+                    </select>
+                    <div class="flex space-x-2 mt-2 sm:mt-0">
+                        <button onclick="exportChart('compare-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                    </div>
+                </div>
+                <div id="compare-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">RSI</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('rsi-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="rsi-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">Stochastic Oscillator</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('stochastic-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="stochastic-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">VWAP</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('vwap-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="vwap-chart" class="chart-div"></div>
+            </div>
+            <div class="chart-container bg-gray-800 rounded-lg p-4 shadow-lg">
+                <h3 class="text-xl font-semibold text-white mb-4">OHLC Data</h3>
+                <div class="flex justify-end mb-2 space-x-2">
+                    <button onclick="exportChart('data-chart')" class="text-sm text-blue-400 hover:underline">Export</button>
+                </div>
+                <div id="data-chart" class="chart-div"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logout Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50 transition-opacity duration-300">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full transform scale-95 transition-transform duration-300">
+            <h3 class="text-lg font-semibold text-gray-100 mb-4">Do you want to logout?</h3>
+            <div class="flex justify-end space-x-4">
+                <button id="logout-cancel" class="px-4 py-2 bg-gray-600 text-gray-100 rounded-md hover:bg-gray-500 transition">No</button>
+                <button id="logout-confirm" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md hover:from-blue-700 hover:to-indigo-700 transition">Yes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chatbot Icon -->
+    <div id="chatbot-icon" class="fixed bottom-6 right-6 w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Chat Icon" class="w-8 h-8"/>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="chatbot-container flex">
+        <div class="chatbot-header">
+            <h3>Crypto Assistant</h3>
+            <button id="chatbot-close">×</button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages">
+            <div class="chatbot-message bot">Hello! I'm here to help with your crypto questions. What would you like to know?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Ask a question about crypto..." autocomplete="off">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+
+    <script src="../js/timeseries.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+/* auth.css */
+body {
+    /* Already styled in auth.html with Tailwind, but kept as fallback */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.auth-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Optional: Add any specific styles not covered by Tailwind or styles.css */
+.auth-form input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
